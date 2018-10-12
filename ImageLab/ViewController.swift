@@ -31,7 +31,7 @@ class ViewController: UIViewController   {
         self.view.backgroundColor = nil
         self.setupFilters()
         
-        self.bridge.loadHaarCascade(withFilename: "mouth")
+        self.bridge.loadHaarCascade(withFilename: "nose")
         
         self.videoManager = VideoAnalgesic.sharedInstance
         self.videoManager.setCameraPosition(position: AVCaptureDevice.Position.front)
@@ -62,7 +62,7 @@ class ViewController: UIViewController   {
         var retImage = inputImage;
         
         self.bridge.setImage(retImage,
-                             withBounds: f[0].bounds,
+                             withBounds: retImage.extent,
                              andContext: self.videoManager.getCIContext())
         self.bridge.processImage()
         retImage = self.bridge.getImageComposite()
