@@ -55,17 +55,34 @@ class ViewController: UIViewController   {
     
     //MARK: Process image output
     func processImage(inputImage:CIImage) -> CIImage{
-        let f = getFaces(img:inputImage)
+//        let f = getFaces(img:inputImage)
+//
+//        if f.count == 0 {return inputImage }
+//
+//        var retImage = inputImage
+//
+//        self.bridge.setImage(retImage,
+//                             withBounds: f[0].bounds,
+//                             andContext: self.videoManager.getCIContext())
+//        self.bridge.processImage()
+//        retImage = self.bridge.getImageComposite()
+//        return retImage
+        // detect faces
+        let f = getFaces(img: inputImage)
         
-        if f.count == 0 {return inputImage }
+        // if no faces, just return original image
+        if f.count == 0 { return inputImage }
         
-        var retImage = inputImage;
+        var retImage = inputImage
         
+        self.bridge.setTransforms(self.videoManager.transform)
         self.bridge.setImage(retImage,
-                             withBounds: retImage.extent,
-                             andContext: self.videoManager.getCIContext())
+                             withBounds: f[0].bounds, // the first face bounds
+            andContext: self.videoManager.getCIContext())
+        
         self.bridge.processImage()
-        retImage = self.bridge.getImageComposite()
+        retImage = self.bridge.getImageComposite() // get back opencv processed part of the image (overlayed on original)
+        
         return retImage
     }
     
