@@ -22,6 +22,7 @@ using namespace cv;
 //@dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass or will be provided at runtime).
 
 -(void)processImage{
+    NSLog(@"Inside processImage");
     
     cv::Mat frame_gray,image_copy;
     char text[50];
@@ -33,7 +34,6 @@ using namespace cv;
     static int counter = 0;
     Scalar avgPixelIntensity;
     cv::Mat image = self.image;
-    
     cvtColor(image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
     avgPixelIntensity = cv::mean( image_copy );
     sprintf(text,"Avg. B: %.0f, G: %.0f, R: %.0f", avgPixelIntensity.val[2],avgPixelIntensity.val[1],avgPixelIntensity.val[0]);

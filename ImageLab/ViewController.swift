@@ -16,7 +16,7 @@ class ViewController: UIViewController   {
     var videoManager:VideoAnalgesic! = nil
     let pinchFilterIndex = 2
     var detector:CIDetector! = nil
-    let bridge = OpenCVBridgeSub()
+    let bridge = OpenCVBridge()
     
     //MARK: Outlets in view
     @IBOutlet weak var flashSlider: UISlider!
@@ -32,7 +32,7 @@ class ViewController: UIViewController   {
         self.setupFilters()
         
         self.bridge.loadHaarCascade(withFilename: "nose")
-        
+        self.bridge.processType = 4;
         self.videoManager = VideoAnalgesic.sharedInstance
         self.videoManager.setCameraPosition(position: AVCaptureDevice.Position.front)
         
@@ -54,19 +54,10 @@ class ViewController: UIViewController   {
     }
     
     //MARK: Process image output
+    
     func processImage(inputImage:CIImage) -> CIImage{
-//        let f = getFaces(img:inputImage)
-//
-//        if f.count == 0 {return inputImage }
-//
-//        var retImage = inputImage
-//
-//        self.bridge.setImage(retImage,
-//                             withBounds: f[0].bounds,
-//                             andContext: self.videoManager.getCIContext())
-//        self.bridge.processImage()
-//        retImage = self.bridge.getImageComposite()
-//        return retImage
+        
+        
         // detect faces
         let f = getFaces(img: inputImage)
         
@@ -75,13 +66,36 @@ class ViewController: UIViewController   {
         
         var retImage = inputImage
         
-        self.bridge.setTransforms(self.videoManager.transform)
-        self.bridge.setImage(retImage,
-                             withBounds: f[0].bounds, // the first face bounds
-            andContext: self.videoManager.getCIContext())
+        // if you just want to process on separate queue use this code
+        // this is a NON BLOCKING CALL, but any changes to the image in OpenCV cannot be displayed real time
+        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
+        //            self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
+        //            self.bridge.processImage()
+        //        }
         
-        self.bridge.processImage()
-        retImage = self.bridge.getImageComposite() // get back opencv processed part of the image (overlayed on original)
+        // use this code if you are using OpenCV and want to overwrite the displayed image via OpenCv
+        // this is a BLOCKING CALL
+        //        self.bridge.setTransforms(self.videoManager.transform)
+        //        self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
+        //        self.bridge.processImage()
+        //        retImage = self.bridge.getImage()
+        
+        //HINT: you can also send in the bounds of the face to ONLY process the face in OpenCV
+        // or any bounds to only process a certain bounding region in OpenCV
+        self.bridge.setTransforms(self.videoManager.transform)
+        
+        
+        
+        for face in f {
+            self.bridge.setImage(retImage,
+                                 withBounds: face.bounds, // the first face bounds
+                andContext: self.videoManager.getCIContext())
+            self.bridge.processImage()
+            retImage = self.bridge.getImageComposite()
+        }
+       
+        
+         // get back opencv processed part of the image (overlayed on original)
         
         return retImage
     }
@@ -129,20 +143,21 @@ class ViewController: UIViewController   {
     
     
     
-    @IBAction func swipeRecognized(_ sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case UISwipeGestureRecognizerDirection.left:
-            self.bridge.processType += 1
-        case UISwipeGestureRecognizerDirection.right:
-            self.bridge.processType -= 1
-        default:
-            break
-            
-        }
-        
-        stageLabel.text = "Stage: \(self.bridge.processType)"
-
-    }
+//    @IBAction func swipeRecognized(_ sender: UISwipeGestureRecognizer) {
+//        switch sender.direction {
+//        case UISwipeGestureRecognizerDirection.left:
+//            print("Swiped left!")
+//            self.bridge.processType += 1
+//        case UISwipeGestureRecognizerDirection.right:
+//            print("Swiped right!")
+//            self.bridge.processType -= 1
+//        default:
+//            break
+//
+//        }
+//
+//        stageLabel.text = "Stage: \(self.bridge.processType)"
+//    }
     
     //MARK: Convenience Methods for UI Flash and Camera Toggle
     @IBAction func flash(_ sender: AnyObject) {
