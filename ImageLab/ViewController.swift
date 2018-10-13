@@ -31,7 +31,9 @@ class ViewController: UIViewController   {
         self.view.backgroundColor = nil
         self.setupFilters()
         
-        self.bridge.loadHaarCascade(withFilename: "nose")
+        self.bridge.loadHaarCascade(withFilename: "parojosG")
+        self.bridge.loadHaarCascade(withFilename: "Mouth")
+
         self.bridge.processType = 4;
         self.videoManager = VideoAnalgesic.sharedInstance
         self.videoManager.setCameraPosition(position: AVCaptureDevice.Position.front)
@@ -143,21 +145,21 @@ class ViewController: UIViewController   {
     
     
     
-//    @IBAction func swipeRecognized(_ sender: UISwipeGestureRecognizer) {
-//        switch sender.direction {
-//        case UISwipeGestureRecognizerDirection.left:
-//            print("Swiped left!")
-//            self.bridge.processType += 1
-//        case UISwipeGestureRecognizerDirection.right:
-//            print("Swiped right!")
-//            self.bridge.processType -= 1
-//        default:
-//            break
-//
-//        }
-//
-//        stageLabel.text = "Stage: \(self.bridge.processType)"
-//    }
+    @IBAction func swipeRecognized(_ sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizerDirection.left:
+            print("Swiped left!")
+            self.bridge.processType += 1
+        case UISwipeGestureRecognizerDirection.right:
+            print("Swiped right!")
+            self.bridge.processType -= 1
+        default:
+            break
+
+        }
+
+        stageLabel.text = "Stage: \(self.bridge.processType)"
+    }
     
     //MARK: Convenience Methods for UI Flash and Camera Toggle
     @IBAction func flash(_ sender: AnyObject) {
