@@ -18,8 +18,9 @@
 		B650B34E1D834D46000114A1 /* smu-campus.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B650B34D1D834D46000114A1 /* smu-campus.jpg */; };
 		B67B72BB1D996ADE008EDDE1 /* OpenCVBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = B67B72BA1D996ADE008EDDE1 /* OpenCVBridge.mm */; };
 		B67B72BF1D99D0AD008EDDE1 /* nose.xml in Resources */ = {isa = PBXBuildFile; fileRef = B67B72BE1D99D0AD008EDDE1 /* nose.xml */; };
-		B69F98B51DA43DF500F1A1B8 /* OpenCVBridgeSub.mm in Sources */ = {isa = PBXBuildFile; fileRef = B69F98B41DA43DF500F1A1B8 /* OpenCVBridgeSub.mm */; };
 		B6E657991D95AA4500E75C60 /* VideoAnalgesic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E657981D95AA4500E75C60 /* VideoAnalgesic.swift */; };
+		C30D5D3E217448AB00C5B452 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30D5D3D217448AB00C5B452 /* ViewController2.swift */; };
+		C30D5D41217448BA00C5B452 /* OpenCVBridgeSub2.mm in Sources */ = {isa = PBXBuildFile; fileRef = C30D5D40217448BA00C5B452 /* OpenCVBridgeSub2.mm */; };
 		C3D3B1912172643800D809E9 /* parojosG.xml in Resources */ = {isa = PBXBuildFile; fileRef = C3D3B1902172643800D809E9 /* parojosG.xml */; };
 		C3D3B193217265E200D809E9 /* Mouth.xml in Resources */ = {isa = PBXBuildFile; fileRef = C3D3B192217265E200D809E9 /* Mouth.xml */; };
 		C3D3B19521726B0900D809E9 /* ojoI.xml in Resources */ = {isa = PBXBuildFile; fileRef = C3D3B19421726B0900D809E9 /* ojoI.xml */; };
@@ -64,10 +65,11 @@
 		B67B72B91D996ADE008EDDE1 /* OpenCVBridge.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenCVBridge.hh; path = ImageDSPUtils/OpenCVBridge.hh; sourceTree = SOURCE_ROOT; };
 		B67B72BA1D996ADE008EDDE1 /* OpenCVBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = OpenCVBridge.mm; path = ImageDSPUtils/OpenCVBridge.mm; sourceTree = SOURCE_ROOT; };
 		B67B72BE1D99D0AD008EDDE1 /* nose.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = nose.xml; sourceTree = SOURCE_ROOT; };
-		B69F98B31DA43DF500F1A1B8 /* OpenCVBridgeSub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVBridgeSub.h; sourceTree = "<group>"; };
-		B69F98B41DA43DF500F1A1B8 /* OpenCVBridgeSub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVBridgeSub.mm; sourceTree = "<group>"; };
 		B69F98B61DA441BD00F1A1B8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		B6E657981D95AA4500E75C60 /* VideoAnalgesic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoAnalgesic.swift; path = ImageDSPUtils/VideoAnalgesic.swift; sourceTree = SOURCE_ROOT; };
+		C30D5D3D217448AB00C5B452 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		C30D5D3F217448BA00C5B452 /* OpenCVBridgeSub2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenCVBridgeSub2.h; path = ../../ImageLabPartB/ImageLab/OpenCVBridgeSub2.h; sourceTree = "<group>"; };
+		C30D5D40217448BA00C5B452 /* OpenCVBridgeSub2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = OpenCVBridgeSub2.mm; path = ../../ImageLabPartB/ImageLab/OpenCVBridgeSub2.mm; sourceTree = "<group>"; };
 		C3D3B1902172643800D809E9 /* parojosG.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = parojosG.xml; sourceTree = "<group>"; };
 		C3D3B192217265E200D809E9 /* Mouth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Mouth.xml; sourceTree = "<group>"; };
 		C3D3B19421726B0900D809E9 /* ojoI.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ojoI.xml; sourceTree = "<group>"; };
@@ -136,6 +138,9 @@
 		B650B3191D8340F0000114A1 /* ImageLab */ = {
 			isa = PBXGroup;
 			children = (
+				C30D5D3F217448BA00C5B452 /* OpenCVBridgeSub2.h */,
+				C30D5D40217448BA00C5B452 /* OpenCVBridgeSub2.mm */,
+				C30D5D3D217448AB00C5B452 /* ViewController2.swift */,
 				B650B31A1D8340F0000114A1 /* AppDelegate.swift */,
 				B650B31C1D8340F0000114A1 /* ViewController.swift */,
 				B650B31E1D8340F0000114A1 /* Main.storyboard */,
@@ -173,8 +178,6 @@
 		B650B34A1D83435A000114A1 /* ImageDSPUtils */ = {
 			isa = PBXGroup;
 			children = (
-				B69F98B31DA43DF500F1A1B8 /* OpenCVBridgeSub.h */,
-				B69F98B41DA43DF500F1A1B8 /* OpenCVBridgeSub.mm */,
 				B6E657981D95AA4500E75C60 /* VideoAnalgesic.swift */,
 				B67B72B91D996ADE008EDDE1 /* OpenCVBridge.hh */,
 				B67B72BA1D996ADE008EDDE1 /* OpenCVBridge.mm */,
@@ -327,8 +330,9 @@
 				B6E657991D95AA4500E75C60 /* VideoAnalgesic.swift in Sources */,
 				B650B31D1D8340F0000114A1 /* ViewController.swift in Sources */,
 				B650B31B1D8340F0000114A1 /* AppDelegate.swift in Sources */,
-				B69F98B51DA43DF500F1A1B8 /* OpenCVBridgeSub.mm in Sources */,
+				C30D5D41217448BA00C5B452 /* OpenCVBridgeSub2.mm in Sources */,
 				B67B72BB1D996ADE008EDDE1 /* OpenCVBridge.mm in Sources */,
+				C30D5D3E217448AB00C5B452 /* ViewController2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
