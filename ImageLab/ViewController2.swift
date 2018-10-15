@@ -54,6 +54,12 @@ class ViewController2: UIViewController   {
     
     }
     
+    func viewWillDisappear() {
+        if videoManager.isRunning {
+            videoManager.stop()
+        }
+    }
+    
     //MARK: Process image output
     func processImage(inputImage:CIImage) -> CIImage{
         self.videoManager.turnOnFlashwithLevel(1.0)
@@ -111,7 +117,7 @@ class ViewController2: UIViewController   {
     
     func getFaces(img:CIImage) -> [CIFaceFeature]{
         // this ungodly mess makes sure the image is the correct orientation
-        //let optsFace = [CIDetectorImageOrientation:self.videoManager.getImageOrientationFromUIOrientation(UIApplication.sharedApplication().statusBarOrientation)]
+        //let optsFace = [CIDetectorImageOrientation:self.videoManager.getImageOrientationFromUIOrientation(UIApplication.sharedApplication().statusBarOrientation), CIDetectorSmile:true, CIDetectorEyeBlink:true] as [String : Any]
    
         
         let optsFace = [CIDetectorImageOrientation:self.videoManager.ciOrientation, CIDetectorSmile:true, CIDetectorEyeBlink:true] as [String : Any]

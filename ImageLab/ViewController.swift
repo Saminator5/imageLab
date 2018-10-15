@@ -58,6 +58,12 @@ class ViewController: UIViewController   {
     
     }
     
+    func viewWillDisappear() {
+        if videoManager.isRunning {
+            videoManager.stop()
+        }
+    }
+    
     //MARK: Process image output
     
     func processImage(inputImage:CIImage) -> CIImage{
