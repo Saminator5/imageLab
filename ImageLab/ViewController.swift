@@ -18,6 +18,9 @@ class ViewController: UIViewController   {
     var detector:CIDetector! = nil
     let bridge = OpenCVBridge()
     
+    @IBOutlet weak var rightEye: UILabel!
+    @IBOutlet weak var leftEye: UILabel!
+    @IBOutlet weak var mouth: UILabel!
     //MARK: Outlets in view
     @IBOutlet weak var flashSlider: UISlider!
     @IBOutlet weak var stageLabel: UILabel!
@@ -34,7 +37,7 @@ class ViewController: UIViewController   {
         self.bridge.loadHaarCascade(withFilename: "parojosG")
         self.bridge.loadHaarCascade(withFilename: "Mouth")
 
-        self.bridge.processType = 4;
+        self.bridge.processType = 1;
         self.videoManager = VideoAnalgesic.sharedInstance
         self.videoManager.setCameraPosition(position: AVCaptureDevice.Position.front)
         
@@ -59,7 +62,6 @@ class ViewController: UIViewController   {
     
     func processImage(inputImage:CIImage) -> CIImage{
         
-        
         // detect faces
         let f = getFaces(img: inputImage)
         
@@ -68,38 +70,69 @@ class ViewController: UIViewController   {
         
         var retImage = inputImage
         
-        // if you just want to process on separate queue use this code
-        // this is a NON BLOCKING CALL, but any changes to the image in OpenCV cannot be displayed real time
-        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
-        //            self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
-        //            self.bridge.processImage()
-        //        }
-        
-        // use this code if you are using OpenCV and want to overwrite the displayed image via OpenCv
-        // this is a BLOCKING CALL
-        //        self.bridge.setTransforms(self.videoManager.transform)
-        //        self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
-        //        self.bridge.processImage()
-        //        retImage = self.bridge.getImage()
-        
-        //HINT: you can also send in the bounds of the face to ONLY process the face in OpenCV
-        // or any bounds to only process a certain bounding region in OpenCV
+      
         self.bridge.setTransforms(self.videoManager.transform)
         
         
         
-        for face in f {
+        for feature in f {
             self.bridge.setImage(retImage,
-                                 withBounds: face.bounds, // the first face bounds
+                                 withBounds: feature.bounds, // the first face bounds
                 andContext: self.videoManager.getCIContext())
             self.bridge.processImage()
             retImage = self.bridge.getImageComposite()
+            
+            if(self.bridge.processType == 2){
+                DispatchQueue.main.async {
+                    self.mouth.isHidden = true;
+                    self.rightEye.isHidden = true;
+                    self.leftEye.isHidden = true;
+                }
+            }  else {
+                DispatchQueue.main.async {
+
+                self.mouth.isHidden = false;
+                self.rightEye.isHidden = false;
+                self.leftEye.isHidden = false;
+                }
+                if (feature.hasSmile) {
+                    DispatchQueue.main.async {
+                        self.mouth.text = "Smiling"
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        self.mouth.text = "Not Smiling"
+                    }
+                }
+                
+                if (feature.leftEyeClosed) {
+                    DispatchQueue.main.async {
+                        self.leftEye.text = "Closed"
+                    }
+                }
+                    
+                else {
+                    DispatchQueue.main.async {
+                        self.leftEye.text = "Open"
+                    }
+                }
+                if (feature.rightEyeClosed) {
+                    DispatchQueue.main.async {
+                        self.rightEye.text = "Closed"
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                    self.rightEye.text = "Open"
+                }
+            }
+            
+          
+            }
         }
-       
-        
-         // get back opencv processed part of the image (overlayed on original)
-        
         return retImage
+
     }
     
     //MARK: Setup filtering
@@ -135,15 +168,10 @@ class ViewController: UIViewController   {
     }
     
     func getFaces(img:CIImage) -> [CIFaceFeature]{
-        // this ungodly mess makes sure the image is the correct orientation
-        //let optsFace = [CIDetectorImageOrientation:self.videoManager.getImageOrientationFromUIOrientation(UIApplication.sharedApplication().statusBarOrientation)]
-        let optsFace = [CIDetectorImageOrientation:self.videoManager.ciOrientation]
-        // get Face Features
+        let optsFace = [CIDetectorImageOrientation:self.videoManager.ciOrientation, CIDetectorEyeBlink:true, CIDetectorSmile:true] as [String : Any]
+
         return self.detector.features(in: img, options: optsFace) as! [CIFaceFeature]
-        
     }
-    
-    
     
     @IBAction func swipeRecognized(_ sender: UISwipeGestureRecognizer) {
         switch sender.direction {
@@ -155,9 +183,7 @@ class ViewController: UIViewController   {
             self.bridge.processType -= 1
         default:
             break
-
         }
-
         stageLabel.text = "Stage: \(self.bridge.processType)"
     }
     
